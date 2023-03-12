@@ -1,19 +1,19 @@
 from dataclasses import dataclass
-from typing import Dict, Union, Protocol, runtime_checkable
-
-from Options import Option, Range, DeathLink, SpecialRange, Toggle, Choice
+from typing import Dict, Union, Protocol, runtime_checkable, ClassVar
+from BaseClasses import MultiWorld
+from Options import Option, Range, DeathLink, SpecialRange, Toggle, Choice, OptionSet
 
 
 @runtime_checkable
 class StardewOption(Protocol):
-    internal_name: str
+    internal_name: ClassVar[str]
 
 
 @dataclass
 class StardewOptions:
-    options: Dict[str, Union[bool, int]]
+    options: Dict[str, Union[bool, int, str]]
 
-    def __getitem__(self, item: Union[str, StardewOption]) -> Union[bool, int]:
+    def __getitem__(self, item: Union[str, StardewOption]) -> Union[bool, int, str]:
         if isinstance(item, StardewOption):
             item = item.internal_name
 
@@ -25,8 +25,14 @@ class Goal(Choice):
     With Community Center, the world will be completed once you complete the Community Center.
     With Grandpa's Evaluation, the world will be completed once 4 candles are lit around Grandpa's Shrine.
     With Bottom of the Mines, the world will be completed once you reach level 120 in the local mineshaft.
-    With Cryptic Note, the world will be completed once you complete the quest "Cryptic Note" where Mr Qi asks you to reach floor 100 in the Skull Cavern
-    With Master Angler, the world will be completed once you have caught every fish in the game. Pairs well with Fishsanity"""
+    With Cryptic Note, the world will be completed once you complete the quest "Cryptic Note" where Mr Qi asks you to
+        reach floor 100 in the Skull Cavern.
+    With Master Angler, the world will be completed once you have caught every fish in the game. Pairs well with
+        Fishsanity.
+    With Complete Collection, the world will be completed once you have completed the museum by donating every possible item. Pairs well with
+        Museumsanity.
+    With Full House, you must get married and have two kids. Pairs well with Friendsanity.
+    """
     internal_name = "goal"
     display_name = "Goal"
     option_community_center = 0
@@ -34,6 +40,8 @@ class Goal(Choice):
     option_bottom_of_the_mines = 2
     option_cryptic_note = 3
     option_master_angler = 4
+    option_complete_collection = 5
+    option_full_house = 6
 
     @classmethod
     def get_option_name(cls, value) -> str:
@@ -114,11 +122,10 @@ class EntranceRandomization(Choice):
     With Disabled, no entrance randomization is done
     With Pelican Town, only buildings in the main town area are randomized with each other
     With Non Progression, only buildings that are always available are randomized with each other
+    With Buildings, All buildings in the world are randomized with each other
+    With Everything, All buildings and areas are randomized with each other
+    With Chaos, same as everything, but the buildings are shuffled again every in-game day. You can't learn it!
     """
-    # With Buildings, All buildings in the world are randomized with each other
-    # With Everything, All buildings and areas are randomized with each other
-    # With Chaos, same as everything, but the buildings are shuffled again every in-game day. You can't learn it!
-
     internal_name = "entrance_randomization"
     display_name = "Entrance Randomization"
     default = 0
@@ -130,12 +137,42 @@ class EntranceRandomization(Choice):
     # option_chaos = 4
 
 
+class SeasonRandomization(Choice):
+    """Should seasons be randomized?
+    All settings allow you to choose which season you want to play next (from those unlocked) at the end of a season.
+    With Disabled, you will start with Spring and with all seasons unlocked.
+    With Randomized, the seasons will be unlocked randomly through Archipelago items.
+    With Randomized Not Winter, the seasons are randomized, but you're guarantied not to start with winter.
+    With Progressive, you will unlock the seasons in order.
+    """
+    internal_name = "season_randomization"
+    display_name = "Season Randomization"
+    default = 1
+    option_disabled = 0
+    option_randomized = 1
+    option_randomized_not_winter = 2
+    option_progressive = 3
+
+
+class SeedShuffle(Choice):
+    """Should seeds be randomized?
+    Pierre now sells a random amount of seasonal seeds and Joja sells them without season requirements, but only in
+        huge packs.
+    With Disabled, all the seeds will be unlocked from the start.
+    With Randomized, the seeds will be unlocked as Archipelago items
+    """
+    internal_name = "seed_shuffle"
+    display_name = "Seed Shuffle"
+    default = 1
+    option_disabled = 0
+    option_shuffled = 1
+
+
 class BackpackProgression(Choice):
     """How is the backpack progression handled?
     With Vanilla, you can buy them at Pierre's.
     With Progressive, you will randomly find Progressive Backpack to upgrade.
-    With Early Progressive, you can expect you first Backpack before the second season, and the third before the forth
-        season.
+    With Early Progressive, you can expect you first Backpack in your world in sphere 1.
     """
     internal_name = "backpack_progression"
     display_name = "Backpack Progression"
@@ -190,7 +227,7 @@ class BuildingProgression(Choice):
     With Progressive, you will receive the buildings and will be able to build the first one of each building for free,
         once it is received. If you want more of the same building, it will cost the vanilla price.
         This option INCLUDES the shipping bin as a building you need to receive.
-    With Progressive early shipping bin, you can expect to receive the shipping bin before the end of the first season.
+    With Progressive early shipping bin, you can expect the shipping bin to be in your world in sphere 1.
     """
     internal_name = "building_progression"
     display_name = "Building Progression"
@@ -203,12 +240,14 @@ class BuildingProgression(Choice):
 class ArcadeMachineLocations(Choice):
     """How are the Arcade Machines handled?
     With Vanilla, the arcade machines are not included in the Archipelago shuffling.
-    With Victories, each Arcade Machine will contain one check on victory
+    With Victories, each Arcade Machine will contain one check on victory, and be otherwise unchanged
     With Victories Easy, the arcade machines are both made considerably easier to be more accessible for the average
-        player.
+        player. Junimo Kart will start each level with 6 Extra lives, and Journey of the Prairie King will start with
+        one of each equipment, and the drop rates of coins and powerups is increased.
     With Full Shuffling, the arcade machines will contain multiple checks each, and different buffs that make the game
-        easier are in the item pool. Junimo Kart has one check at the end of each level.
-        Journey of the Prairie King has one check after each boss, plus one check for each vendor equipment.
+        easier are received in the item pool. Junimo Kart has one check at the end of each level, and 6 extra lives in
+        the item pool. Journey of the Prairie King has one check after each boss, plus one check for each vendor
+        equipment. Every equipment is instead in the item pool, plus 2 starting lives and one drop rate buff.
     """
     internal_name = "arcade_machine_locations"
     display_name = "Arcade Machine Locations"
@@ -257,6 +296,41 @@ class Fishsanity(Choice):
     option_all = 4
 
 
+class Museumsanity(Choice):
+    """Locations for museum donation?
+    With None, there are no locations for donating artifacts and minerals to the museum
+    With Milestones, the donation milestones from the vanilla game will contain AP checks
+    With Random Selection, a random selection of minerals and artifacts are locations that contain items
+    With All, every single donation will be an AP check
+    """
+    internal_name = "museumsanity"
+    display_name = "Museumsanity"
+    default = 1
+    option_none = 0
+    option_milestones = 1
+    option_random_selection = 2
+    option_all = 3
+
+
+class Friendsanity(Choice):
+    """Locations for friendships?
+    With None, there are no locations for befriending villagers
+    With Bachelors, each heart of a bachelor is a check
+    With Starting NPCs, each heart for npcs that are immediately available is a check
+    With All, every heart with every NPC is a check, including Leo, Kent, Sandy, etc
+    With All With Marriage, marriage candidates must also be dated, married, and raised up to 14 hearts.
+    """
+    internal_name = "friendsanity"
+    display_name = "Friendsanity"
+    default = 0
+    option_none = 0
+    # option_marry_one_person = 1
+    option_bachelors = 2
+    option_starting_npcs = 3
+    option_all = 4
+    option_all_with_marriage = 5
+
+
 class NumberOfPlayerBuffs(Range):
     """Number of buffs to the player of each type that exist as items in the pool.
     Buffs include movement speed (+25% multiplier, stacks additively)
@@ -297,6 +371,26 @@ class ExperienceMultiplier(SpecialRange):
     A higher setting means more experience."""
     internal_name = "experience_multiplier"
     display_name = "Experience Multiplier"
+    range_start = 25
+    range_end = 400
+    # step = 25
+    default = 200
+
+    special_range_names = {
+        "half": 50,
+        "vanilla": 100,
+        "double": 200,
+        "triple": 300,
+        "quadruple": 400,
+    }
+
+
+class FriendshipMultiplier(SpecialRange):
+    """How fast do you want to befriend villagers.
+    A lower setting mean less friendship per action.
+    A higher setting means more friendship per action."""
+    internal_name = "friendship_multiplier"
+    display_name = "Friendship Multiplier"
     range_start = 25
     range_end = 400
     # step = 25
@@ -363,46 +457,62 @@ class GiftTax(SpecialRange):
         "nightmare tax": 400,
     }
 
+class Mods(OptionSet):
+    """List of expansions that will be considered for shuffling.  Currently supports: Stardew Valley Expanded."""
+    internal_name = "mods"
+    display_name = "Mods"
+    valid_keys = {
+        "Stardew Valley Expanded"
+    }
 
-stardew_valley_options: Dict[str, type(Option)] = {
-    option.internal_name: option
-    for option in [
-        StartingMoney,
-        ResourcePackMultiplier,
-        BundleRandomization,
-        BundlePrice,
-        EntranceRandomization,
-        BackpackProgression,
-        ToolProgression,
-        SkillProgression,
-        BuildingProgression,
-        TheMinesElevatorsProgression,
-        ArcadeMachineLocations,
-        HelpWantedLocations,
-        Fishsanity,
-        NumberOfPlayerBuffs,
-        Goal,
-        MultipleDaySleepEnabled,
-        MultipleDaySleepCost,
-        ExperienceMultiplier,
-        DebrisMultiplier,
-        QuickStart,
-        Gifting,
-        GiftTax,
-    ]
-}
+stardew_valley_option_classes = [
+    StartingMoney,
+    ResourcePackMultiplier,
+    BundleRandomization,
+    BundlePrice,
+    EntranceRandomization,
+    SeasonRandomization,
+    SeedShuffle,
+    BackpackProgression,
+    ToolProgression,
+    SkillProgression,
+    BuildingProgression,
+    TheMinesElevatorsProgression,
+    ArcadeMachineLocations,
+    HelpWantedLocations,
+    Fishsanity,
+    Museumsanity,
+    Friendsanity,
+    NumberOfPlayerBuffs,
+    Goal,
+    MultipleDaySleepEnabled,
+    MultipleDaySleepCost,
+    ExperienceMultiplier,
+    FriendshipMultiplier,
+    DebrisMultiplier,
+    QuickStart,
+    Gifting,
+    GiftTax,
+    Mods,
+]
+stardew_valley_options: Dict[str, type(Option)] = {option.internal_name: option for option in stardew_valley_option_classes}
 default_options = {option.internal_name: option.default for option in stardew_valley_options.values()}
 stardew_valley_options["death_link"] = DeathLink
 
 
 def fetch_options(world, player: int) -> StardewOptions:
-    return StardewOptions({option: get_option_value(world, player, option) for option in stardew_valley_options})
+    options = {option: get_option_value(world, player, option) for option in stardew_valley_options}
+    options[HelpWantedLocations.internal_name] = (options[HelpWantedLocations.internal_name] // 7) * 7
+    return StardewOptions(options)
 
 
-def get_option_value(world, player: int, name: str) -> Union[bool, int]:
+def get_option_value(world, player: int, name: str) -> Union[bool, int, str]:
     assert name in stardew_valley_options, f"{name} is not a valid option for Stardew Valley."
 
-    value = getattr(world, name)
+    value = getattr(world, name, None)
+
+    if value is None:
+        return stardew_valley_options[name].default
 
     if issubclass(stardew_valley_options[name], Toggle):
         return bool(value[player].value)

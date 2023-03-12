@@ -1,7 +1,7 @@
 from random import Random
 from typing import List, Dict, Union
 
-from .bundle_data import *
+from worlds.stardew_valley.data.bundle_data import *
 from .logic import StardewLogic
 from .options import BundleRandomization, BundlePrice
 
@@ -190,7 +190,7 @@ def shuffle_bundles_completely(random: Random, logic: StardewLogic, bundles: Dic
 
     items_sorted = sorted(choices, key=lambda x: logic.item_rules[x.item.name].get_difficulty())
 
-    keys = sorted(bundles.keys())
+    keys = list(bundles.keys())
     random.shuffle(keys)
 
     for key in keys:

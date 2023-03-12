@@ -41,41 +41,49 @@ class ConnectionData:
             super().__setattr__("reverse", f"{destination} to {origin}")
 
 
+
+
 stardew_valley_regions = [
     RegionData("Menu", ["To Stardew Valley"]),
     RegionData("Stardew Valley", ["To Farmhouse"]),
     RegionData("Farmhouse", ["Outside to Farm", "Downstairs to Cellar"]),
     RegionData("Cellar"),
     RegionData("Farm", ["Farm to Backwoods", "Farm to Bus Stop", "Farm to Forest", "Farm to Farmcave", "Enter Greenhouse",
-                        "Use Desert Obelisk", "Use Island Obelisk"]),
-    RegionData("Backwoods", ["Backwoods to Mountain"]),
-    RegionData("Bus Stop", ["Bus Stop to Town", "Take Bus to Desert", "Bus Stop to Tunnel Entrance"]),
+                "Use Desert Obelisk", "Use Island Obelisk", "Use Highlands Obelisk"]),
+    RegionData("Backwoods", ["Backwoods to Mountain", "Backwoods to Enchanted Grove"]),
+    RegionData("Bus Stop", ["Bus Stop to Town", "Take Bus to Desert", "Bus Stop to Tunnel Entrance", "Bus Stop to Grandpa's Shed"]),
     RegionData("Forest", ["Forest to Town", "Enter Secret Woods", "Forest to Wizard Tower", "Forest to Marnie's Ranch",
-                          "Forest to Leah's Cottage", "Forest to Sewers"]),
+                          "Forest to Leah's Cottage", "Forest to Sewers", "Talk to Traveling Merchant", "Forest to Fairhaven Farm", 
+                          "Forest to Forest West", "Forest to Jumino Woods", "Forest to Blue Moon Vineyard", "Forest to Marnie's Shed"]),
+    RegionData("Traveling Cart"),
     RegionData("Farmcave"),
     RegionData("Greenhouse"),
-    RegionData("Mountain", ["Mountain to Railroad", "Mountain to Tent", "Mountain to Carpenter Shop", "Mountain to The Mines",
-                            "Enter Quarry", "Mountain to Adventurer's Guild", "Mountain to Town"]),
+    RegionData("Mountain",
+               ["Mountain to Railroad", "Mountain to Tent", "Mountain to Carpenter Shop", "Mountain to The Mines",
+                "Enter Quarry", "Mountain to Adventurer's Guild", "Mountain to Town"]),
     RegionData("Tunnel Entrance", ["Enter Tunnel"]),
     RegionData("Tunnel"),
     RegionData("Town", ["Town to Community Center", "Town to Beach", "Town to Hospital",
-                        "Town to Pierre's General Store", "Town to Saloon", "Town to Alex's House", "Town to Trailer", "Town to Mayor's Manor",
-                        "Town to Sam's House", "Town to Haley's House", "Town to Sewers", "Town to Clint's Blacksmith", "Town to Museum",
-                        "Town to JojaMart"]),
+                        "Town to Pierre's General Store", "Town to Saloon", "Town to Alex's House", "Town to Trailer",
+                        "Town to Mayor's Manor",
+                        "Town to Sam's House", "Town to Haley's House", "Town to Sewers", "Town to Clint's Blacksmith",
+                        "Town to Museum",
+                        "Town to JojaMart", "Town to Blue Moon Vineyard", "Town to Jenkins Residence", "Town to Shearwater Bridge", "Town to Unclaimed Plot"]),
     RegionData("Beach", ["Beach to Willy's Fish Shop", "Enter Elliott's House", "Enter Tide Pools"]),
-    RegionData("Railroad", ["Enter Bathhouse Entrance", "Enter Witch Warp Cave"]),  # "Enter Perfection Cutscene Area"
+    RegionData("Railroad", ["Enter Bathhouse Entrance", "Enter Witch Warp Cave", "Enter Susan's House", "Enter Summit"]),  # "Enter Perfection Cutscene Area"
     RegionData("Marnie's Ranch"),
     RegionData("Leah's Cottage"),
     RegionData("Sewers", ["Enter Mutant Bug Lair"]),
     RegionData("Mutant Bug Lair"),
     RegionData("Wizard Tower", ["Enter Wizard Basement"]),
-    RegionData("Wizard Basement"),
+    RegionData("Wizard Basement", ["Wizard Basement to Fable Reef", "Wizard Basement to Witch's Swamp"]),
     RegionData("Tent"),
     RegionData("Carpenter Shop", ["Enter Sebastian's Room"]),
     RegionData("Sebastian's Room"),
-    RegionData("Adventurer's Guild"),
+    RegionData("Adventurer's Guild", ["Adventurer's Guild to Interior", "Boat to Highlands", "Guild to Mines"]),
     RegionData("Community Center",
-               ["Access Crafts Room", "Access Pantry", "Access Fish Tank", "Access Boiler Room", "Access Bulletin Board",
+               ["Access Crafts Room", "Access Pantry", "Access Fish Tank", "Access Boiler Room",
+                "Access Bulletin Board",
                 "Access Vault"]),
     RegionData("Crafts Room"),
     RegionData("Pantry"),
@@ -107,10 +115,11 @@ stardew_valley_regions = [
     RegionData("Quarry", ["Enter Quarry Mine Entrance"]),
     RegionData("Quarry Mine Entrance", ["Enter Quarry Mine"]),
     RegionData("Quarry Mine"),
-    RegionData("Secret Woods"),
+    RegionData("Secret Woods", ["Secret Woods to Forest West"]),
     RegionData("The Desert", ["Enter Skull Cavern Entrance"]),
     RegionData("Skull Cavern Entrance", ["Enter Skull Cavern"]),
-    RegionData("Skull Cavern"),
+    RegionData("Skull Cavern", ["Mine to Skull Cavern Floor 100"]),
+    RegionData("Skull Cavern Floor 100"),
     RegionData("Ginger Island"),
     RegionData("JotPK World 1", ["Reach JotPK World 2"]),
     RegionData("JotPK World 2", ["Reach JotPK World 3"]),
@@ -119,13 +128,20 @@ stardew_valley_regions = [
     RegionData("Junimo Kart 2", ["Reach Junimo Kart 3"]),
     RegionData("Junimo Kart 3"),
     RegionData("The Mines", ["Dig to The Mines - Floor 5", "Dig to The Mines - Floor 10", "Dig to The Mines - Floor 15",
-                             "Dig to The Mines - Floor 20", "Dig to The Mines - Floor 25", "Dig to The Mines - Floor 30",
-                             "Dig to The Mines - Floor 35", "Dig to The Mines - Floor 40", "Dig to The Mines - Floor 45",
-                             "Dig to The Mines - Floor 50", "Dig to The Mines - Floor 55", "Dig to The Mines - Floor 60",
-                             "Dig to The Mines - Floor 65", "Dig to The Mines - Floor 70", "Dig to The Mines - Floor 75",
-                             "Dig to The Mines - Floor 80", "Dig to The Mines - Floor 85", "Dig to The Mines - Floor 90",
-                             "Dig to The Mines - Floor 95", "Dig to The Mines - Floor 100", "Dig to The Mines - Floor 105",
-                             "Dig to The Mines - Floor 110", "Dig to The Mines - Floor 115", "Dig to The Mines - Floor 120"]),
+                             "Dig to The Mines - Floor 20", "Dig to The Mines - Floor 25",
+                             "Dig to The Mines - Floor 30",
+                             "Dig to The Mines - Floor 35", "Dig to The Mines - Floor 40",
+                             "Dig to The Mines - Floor 45",
+                             "Dig to The Mines - Floor 50", "Dig to The Mines - Floor 55",
+                             "Dig to The Mines - Floor 60",
+                             "Dig to The Mines - Floor 65", "Dig to The Mines - Floor 70",
+                             "Dig to The Mines - Floor 75",
+                             "Dig to The Mines - Floor 80", "Dig to The Mines - Floor 85",
+                             "Dig to The Mines - Floor 90",
+                             "Dig to The Mines - Floor 95", "Dig to The Mines - Floor 100",
+                             "Dig to The Mines - Floor 105",
+                             "Dig to The Mines - Floor 110", "Dig to The Mines - Floor 115",
+                             "Dig to The Mines - Floor 120"]),
     RegionData("The Mines - Floor 5"),
     RegionData("The Mines - Floor 10"),
     RegionData("The Mines - Floor 15"),
@@ -150,9 +166,39 @@ stardew_valley_regions = [
     RegionData("The Mines - Floor 110"),
     RegionData("The Mines - Floor 115"),
     RegionData("The Mines - Floor 120"),
+# SVE Regions
+    RegionData("Jenkins Residence", ["Jenkins Residence to Jenkins Cellar"]),
+    RegionData("Jenkins Cellar"),
+    RegionData("Blue Moon Vineyard", ["Blue Moon Vineyard to Sophia's House", "Blue Moon Vineyard to Beach"]),
+    RegionData("Sophia's House"),
+    RegionData("Highlands", ["Highlands to Lance's House", "Highlands to Highlands Cavern"]),
+    RegionData("Highlands Cavern"),
+    RegionData("Lance's House", ["Lance Ladder to Highlands"]),
+    RegionData("Fairhaven Farm"),
+    RegionData("Forest West", ["Forest West to Sprite Spring", "Forest West to Aurora Vineyard"]),
+    RegionData("Aurora Vineyard"),
+    RegionData("Crimson Badlands"),
+    RegionData("Sprite Spring"),
+    RegionData("Jumino Woods"),
+    RegionData("Fable Reef"),
+    RegionData("Unclaimed Plot", ["Unclaimed Plot to Shearwater Bridge"]),
+    RegionData("Shearwater Bridge"),
+    RegionData("Grandpa's Shed", ["Grandpa's Shed to Interior", "Grandpa's Shed to Town", "Shed to Hot Spring"]),
+    RegionData("Grandpa's Shed Interior"),
+    RegionData("Secret Hot Spring"),
+    RegionData("Adventurer's Guild Interior"),
+    RegionData("Enchanted Grove", ["Grove to Galmoran Outpost", "Grove to Fable Reef"]),
+    RegionData("Galmoran Outpost", ["Galmoran Outpost to Badlands Entrance"]),
+    RegionData("Badlands Entrance", ["Badlands Entrance to Crimson Badlands"]),
+    RegionData("Summit"),
+    RegionData("Susan's House"),
+    RegionData("Marnie's Shed")
 ]
 
-# Exists and where they lead
+
+
+
+# Exits and where they lead
 mandatory_connections = [
     ConnectionData("To Stardew Valley", "Stardew Valley"),
     ConnectionData("To Farmhouse", "Farmhouse"),
@@ -177,6 +223,7 @@ mandatory_connections = [
     ConnectionData("Forest to Leah's Cottage", "Leah's Cottage"),
     ConnectionData("Enter Secret Woods", "Secret Woods"),
     ConnectionData("Forest to Sewers", "Sewers"),
+    ConnectionData("Talk to Traveling Merchant", "Traveling Cart"),
     ConnectionData("Town to Sewers", "Sewers"),
     ConnectionData("Enter Mutant Bug Lair", "Mutant Bug Lair"),
     ConnectionData("Mountain to Railroad", "Railroad"),
@@ -245,16 +292,61 @@ mandatory_connections = [
     ConnectionData("Dig to The Mines - Floor 120", "The Mines - Floor 120"),
     ConnectionData("Enter Skull Cavern Entrance", "Skull Cavern Entrance"),
     ConnectionData("Enter Skull Cavern", "Skull Cavern"),
+    ConnectionData("Mine to Skull Cavern Floor 100", "Skull Cavern Floor 100"),
     ConnectionData("Enter Witch Warp Cave", "Witch Warp Cave"),
     ConnectionData("Enter Witch's Swamp", "Witch's Swamp"),
     ConnectionData("Enter Bathhouse Entrance", "Bathhouse Entrance"),
     ConnectionData("Enter Locker Room", "Locker Room"),
     ConnectionData("Enter Public Bath", "Public Bath"),
+   # SVE Data
+    ConnectionData("Town to Jenkins Residence", "Jenkins Residence"),
+    ConnectionData("Jenkins Residence to Jenkins Cellar", "Jenkins Cellar"),
+    ConnectionData("Forest to Blue Moon Vineyard", "Blue Moon Vineyard"),
+    ConnectionData("Blue Moon Vineyard to Beach", "Beach"),
+    ConnectionData("Town to Unclaimed Plot", "Unclaimed Plot"),
+    ConnectionData("Town to Blue Moon Vineyard", "Blue Moon Vineyard"),
+    ConnectionData("Town to Shearwater Bridge", "Shearwater Bridge"),
+    ConnectionData("Unclaimed Plot to Shearwater Bridge", "Shearwater Bridge"),
+    ConnectionData("Bus Stop to Grandpa's Shed", "Grandpa's Shed"),
+    ConnectionData("Grandpa's Shed to Interior", "Grandpa's Shed Interior"),
+    ConnectionData("Grandpa's Shed to Town", "Town"),
+    ConnectionData("Blue Moon Vineyard to Sophia's House", "Sophia's House"),
+    ConnectionData("Boat to Highlands", "Highlands"),
+    ConnectionData("Adventurer's Guild to Interior", "Adventurer's Guild Interior"),
+    ConnectionData("Backwoods to Enchanted Grove", "Enchanted Grove"),
+    ConnectionData("Grove to Galmoran Outpost", "Galmoran Outpost"),
+    ConnectionData("Grove to Fable Reef", "Fable Reef"),
+    ConnectionData("Wizard Basement to Fable Reef", "Fable Reef"),
+    ConnectionData("Wizard Basement to Witch's Swamp", "Witch's Swamp"),
+    ConnectionData("Galmoran Outpost to Badlands Entrance", "Badlands Entrance"),
+    ConnectionData("Badlands Entrance to Crimson Badlands", "Crimson Badlands"),
+    ConnectionData("Guild to Mines", "The Mines"),
+    ConnectionData("Forest to Forest West", "Forest West"),
+    ConnectionData("Secret Woods to Forest West", "Forest West"),
+    ConnectionData("Forest West to Aurora Vineyard", "Aurora Vineyard"),
+    ConnectionData("Forest to Jumino Woods", "Jumino Woods"),
+    ConnectionData("Forest to Marnie's Shed", "Marnie's Shed"),
+    ConnectionData("Shed to Hot Spring", "Secret Hot Spring"),
+    ConnectionData("Use Highlands Obelisk", "Highlands"),
+    ConnectionData("Forest West to Sprite Spring", "Sprite Spring"),
+    ConnectionData("Enter Susan's House", "Susan's House"),
+    ConnectionData("Enter Summit", "Summit"),
+    ConnectionData("Forest to Fairhaven Farm", "Fairhaven Farm"),
+    ConnectionData("Highlands to Lance's House", "Lance's House"),
+    ConnectionData("Lance Ladder to Highlands", "Highlands"),
+    ConnectionData("Highlands to Highlands Cavern", "Highlands Cavern")
+    
+    
+    
+    
+    
 ]
 
 
-def create_regions(region_factory: RegionFactory, random: Random, world_options: StardewOptions) -> Tuple[Iterable[Region], Dict[str, str]]:
-    regions: Dict[str: Region] = {region.name: region_factory(region.name, region.exits) for region in stardew_valley_regions}
+def create_regions(region_factory: RegionFactory, random: Random, world_options: StardewOptions) -> Tuple[
+    Iterable[Region], Dict[str, str]]:
+    regions: Dict[str: Region] = {region.name: region_factory(region.name, region.exits) for region in
+                                  stardew_valley_regions}
     entrances: Dict[str: Entrance] = {entrance.name: entrance
                                       for region in regions.values()
                                       for entrance in region.exits}
@@ -272,9 +364,11 @@ def create_regions(region_factory: RegionFactory, random: Random, world_options:
 def randomize_connections(random: Random, world_options: StardewOptions) -> Tuple[List[ConnectionData], Dict[str, str]]:
     connections_to_randomize = []
     if world_options[options.EntranceRandomization] == options.EntranceRandomization.option_pelican_town:
-        connections_to_randomize = [connection for connection in mandatory_connections if RandomizationFlag.PELICAN_TOWN in connection.flag]
+        connections_to_randomize = [connection for connection in mandatory_connections if
+                                    RandomizationFlag.PELICAN_TOWN in connection.flag]
     elif world_options[options.EntranceRandomization] == options.EntranceRandomization.option_non_progression:
-        connections_to_randomize = [connection for connection in mandatory_connections if RandomizationFlag.NON_PROGRESSION in connection.flag]
+        connections_to_randomize = [connection for connection in mandatory_connections if
+                                    RandomizationFlag.NON_PROGRESSION in connection.flag]
     random.shuffle(connections_to_randomize)
 
     destination_pool = list(connections_to_randomize)
