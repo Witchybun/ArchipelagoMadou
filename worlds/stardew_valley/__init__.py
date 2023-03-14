@@ -37,7 +37,7 @@ class StardewWebWorld(WebWorld):
         "English",
         "setup_en.md",
         "setup/en",
-        ["KaitoKid", "Jouramie"]
+        ["KaitoKid", "Jouramie", "Witchybun (Mod Support)"]
     )]
 
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from typing import FrozenSet
+from typing import FrozenSet, Optional
 
 
 @dataclass(frozen=True)
@@ -17,7 +17,7 @@ class FishItem(GameItem):
     locations: FrozenSet[str]
     seasons: FrozenSet[str]
     difficulty: int
-    mod_name: str
+    mod_name: Optional[str]
 
     def __repr__(self):
         return f"{self.name} [{self.item_id}] (Locations: {self.locations} |" \
@@ -46,7 +46,7 @@ class Villager:
     birthday: str
     gifts: FrozenSet[str]
     available: bool
-    mod_name: str
+    mod_name: Optional[str]
 
     def __repr__(self):
         return f"{self.name} [Bachelor: {self.bachelor}] [Available from start: {self.available}]" \

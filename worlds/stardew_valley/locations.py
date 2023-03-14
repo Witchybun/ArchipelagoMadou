@@ -211,11 +211,11 @@ def create_locations(location_collector: StardewLocationCollector,
         randomized_locations.extend(locations_by_tag[LocationTags.ARCADE_MACHINE])
 
     extend_help_wanted_quests(randomized_locations, world_options[options.HelpWantedLocations])
-    extend_fishsanity_locations(randomized_locations, world_options[options.Fishsanity], random, "Vanilla")
+    extend_fishsanity_locations(randomized_locations, world_options[options.Fishsanity], random, None)
     for mods in world_options[options.Mods]:
         extend_fishsanity_locations(randomized_locations, world_options[options.Fishsanity], random, mods)
     extend_museumsanity_locations(randomized_locations, world_options[options.Museumsanity], random)
-    extend_friendsanity_locations(randomized_locations, world_options[options.Friendsanity], "Vanilla")
+    extend_friendsanity_locations(randomized_locations, world_options[options.Friendsanity], None)
     extend_friendsanity_pet_locations(randomized_locations, world_options[options.Friendsanity])
     for mods in world_options[options.Mods]:
         extend_friendsanity_locations(randomized_locations, world_options[options.Friendsanity], mods)

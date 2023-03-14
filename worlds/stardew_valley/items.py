@@ -150,7 +150,7 @@ def load_item_csv():
     return items
 
 
-def load_resource_pack_csv() -> List[ResourcePackData]:
+def load_resource_pack_csv(mod_value: str) -> List[ResourcePackData]:
     from importlib.resources import path
 
     resource_packs = []
@@ -159,13 +159,18 @@ def load_resource_pack_csv() -> List[ResourcePackData]:
             resource_pack_reader = csv.DictReader(file)
             for resource_pack in resource_pack_reader:
                 groups = frozenset(Group[group] for group in resource_pack["groups"].split(",") if group)
-                resource_packs.append(ResourcePackData(resource_pack["name"],
-                                                       int(resource_pack['default_amount']),
-                                                       int(resource_pack['scaling_factor']),
-                                                       ItemClassification[resource_pack["classification"]],
-                                                       groups))
+                if resource_pack["mod_name"] == mod_value:
+                    resource_packs.append(ResourcePackData(resource_pack["name"],
+                                                           int(resource_pack['default_amount']),
+                                                           int(resource_pack['scaling_factor']),
+                                                           ItemClassification[resource_pack["classification"]],
+                                                           groups))
     return resource_packs
 
+def total_resource_pack(world_options: StardewOptions):
+    da_thing = load_resource_pack_csv("Vanilla")
+    for mods in world_options[options.Mods]:
+        da_thing.add(load_resource_pack_csv(mods))
 
 events = [
     ItemData(None, "Victory", ItemClassification.progression),
@@ -190,7 +195,6 @@ def initialize_item_table():
 
 
 friendship_pack = FriendshipPackData("Friendship Bonus", default_amount=2, classification=ItemClassification.useful)
-all_resource_packs = load_resource_pack_csv()
 
 initialize_item_table()
 initialize_groups()
@@ -235,7 +239,7 @@ def create_unique_items(item_factory: StardewItemFactory, world_options: Stardew
     items.append(item_factory("Return Scepter"))
     items.extend(create_seasons(item_factory, world_options))
     items.extend(create_seeds(item_factory, world_options))
-    create_friendsanity_items(item_factory, world_options, items, "Vanilla")
+    create_friendsanity_items(item_factory, world_options, items, None)
     create_friendsanity_pet_items(item_factory, world_options, items)
     for mods in world_options[options.Mods]:
         create_friendsanity_items(item_factory, world_options, items, mods)
@@ -420,6 +424,9 @@ def create_seeds(item_factory: StardewItemFactory, world_options: StardewOptions
 def fill_with_resource_packs(item_factory: StardewItemFactory, world_options: StardewOptions, random: Random,
                              required_resource_pack: int) -> List[Item]:
     resource_pack_multiplier = world_options[options.ResourcePackMultiplier]
+    all_resource_packs = load_resource_pack_csv("Vanilla")
+    for mods in world_options[options.Mods]:
+        all_resource_packs.extend(load_resource_pack_csv(mods))
 
     if resource_pack_multiplier == 0:
         return [item_factory(cola) for cola in ["Joja Cola"] * required_resource_pack]

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Dict, Union, Protocol, runtime_checkable, ClassVar
-from BaseClasses import MultiWorld
+
 from Options import Option, Range, DeathLink, SpecialRange, Toggle, Choice, OptionSet
 
 
